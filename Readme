@@ -1,0 +1,13 @@
+# WalletChecker
+
+A Python script to check wallet balances across multiple blockchains.
+
+## File
+
+- **`walletchecker.py`**: Checks balances for a wallet address on Ethereum, BSC, Polygon, Avalanche, Arbitrum, and Optimism.
+
+## Usage
+
+1. Install dependencies:
+   ```bash
+   pip install web3 eth_account python-dotenv
