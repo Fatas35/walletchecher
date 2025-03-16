@@ -11,3 +11,26 @@ A Python script to check wallet balances across multiple blockchains.
 1. Install dependencies:
    ```bash
    pip install web3 eth_account python-dotenv
+   ```
+
+2. Create a `.env` file for API keys:
+   ```env
+   INFURA_API_KEY=your_infura_key
+   BSC_API_KEY=your_bsc_key
+   ```
+
+3. Run the script:
+   ```bash
+   python walletchecker.py
+   ```
+
+## Supported Blockchains
+
+- Ethereum (ETH)
+- Binance Smart Chain (BNB)
+- Polygon (MATIC)
+- Avalanche (AVAX)
+- Arbitrum (ETH)
+- Optimism (ETH)
+
+## License
