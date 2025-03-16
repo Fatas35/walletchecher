@@ -1,4 +1,4 @@
-# Wallet Checker
+# WalletChecker
 
 ## 📌 Description
 Wallet Checker is a tool that generates mnemonic phrases, retrieves associated wallet addresses, and checks their balances across multiple blockchains.
@@ -19,7 +19,7 @@ Wallet Checker is a tool that generates mnemonic phrases, retrieves associated w
 
 ### 1️⃣ Clone the project
 ```sh
-git clone https://github.com/your-username/wallet-checker.git
+git clone https://github.com/Fatas35/walletchecher.git
 cd wallet-checker
 
 2️⃣ Install dependencies
