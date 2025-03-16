@@ -5,13 +5,13 @@ from web3 import Web3
 from concurrent.futures import ThreadPoolExecutor
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement depuis .env
+# Load environment variables from .env
 load_dotenv()
 
-# Activation des fonctionnalités HDWallet
+# Enable HDWallet features
 Account.enable_unaudited_hdwallet_features()
 
-# Dictionnaire des blockchains avec URLs RPC
+# Dictionary of blockchains with RPC URLs
 NETWORKS = {
     "Ethereum": {"rpc_url": f"https://mainnet.infura.io/v3/{os.getenv('INFURA_API_KEY')}", "symbol": "ETH"},
     "BSC": {"rpc_url": f"https://bsc-dataseed.binance.org/", "symbol": "BNB"},
@@ -21,7 +21,7 @@ NETWORKS = {
     "Optimism": {"rpc_url": "https://mainnet.optimism.io", "symbol": "ETH"}
 }
 
-# Initialisation des connexions Web3 avec vérification
+# Initialize Web3 connections with verification
 def init_web3_instances():
     instances = {}
     for network, config in NETWORKS.items():
@@ -29,15 +29,15 @@ def init_web3_instances():
         if web3.is_connected():
             instances[network] = web3
         else:
-            print(f"⚠️ {network} : Connexion RPC échouée")
+            print(f"âš ï¸ {network} : Connexion RPC Ã©chouÃ©e")
     return instances
 
 WEB3_INSTANCES = init_web3_instances()
 
-# Vérification d'une blockchain spécifique
+# Check a specific blockchain
 def check_balance(network, address):
     if network not in WEB3_INSTANCES:
-        return network, "⚠️ Connexion RPC échouée", 0
+        return network, "âš ï¸ RPC connection failed", 0
 
     web3 = WEB3_INSTANCES[network]
     try:
@@ -47,7 +47,7 @@ def check_balance(network, address):
     except Exception as e:
         return network, f"Erreur : {str(e)}", 0
 
-# Vérification des soldes en parallèle
+# Check balances in parallel
 def check_balances(address):
     total_balance = 0
     results = {}
@@ -62,7 +62,7 @@ def check_balances(address):
 
     return results, total_balance > 0
 
-# Génération et vérification d'un wallet
+# Generate and check a wallet
 def generate_and_check_wallet(wallet_number):
     mnemo = Mnemonic("english")
     phrase = mnemo.generate(strength=128)
@@ -71,14 +71,14 @@ def generate_and_check_wallet(wallet_number):
     
     balances, has_balance = check_balances(address)
 
-    print(f"\n📜 Phrase {wallet_number} : {phrase}")
-    print(f"🏦 Adresse {wallet_number} : {address}")
+    print(f"\nðŸ“œ Mnemonic Phrase {wallet_number} : {phrase}")
+    print(f"ðŸ¦ Address {wallet_number} : {address}")
     for network, balance in balances.items():
-        print(f"🔗 {network} : {balance}")
+        print(f"ðŸ”— {network} : {balance}")
 
     return phrase, address, balances, has_balance
 
-# Sauvegarde des portefeuilles
+# Save wallets
 def save_wallets(non_empty_wallets, empty_wallets):
     if non_empty_wallets:
         with open("non_empty_wallets.txt", "a") as f:
@@ -87,15 +87,15 @@ def save_wallets(non_empty_wallets, empty_wallets):
                 for network, balance in balances.items():
                     f.write(f"{network}: {balance}\n")
                 f.write("\n")
-        print(f"{len(non_empty_wallets)} portefeuilles non vides ajoutés à non_empty_wallets.txt")
+        print(f"{len(non_empty_wallets)} non-empty wallets added to non_empty_wallets.txt")
 
     if empty_wallets:
         with open("empty_wallets.txt", "a") as f:
             for phrase, address in empty_wallets:
                 f.write(f"Phrase: {phrase}\nAdresse: {address}\n\n")
-        print(f"{len(empty_wallets)} portefeuilles vides ajoutés à empty_wallets.txt")
+        print(f"{len(empty_wallets)} empty wallets added to empty_wallets.txt")
 
-# Processus de génération et vérification de wallets
+# Wallet generation and verification process
 def process_wallets(num_phrases, max_workers=4):
     non_empty_wallets = []
     empty_wallets = []
@@ -114,17 +114,17 @@ def process_wallets(num_phrases, max_workers=4):
 
 def main():
     if not WEB3_INSTANCES:
-        print("Erreur : Aucune connexion RPC valide. Vérifiez vos URLs RPC.")
+        print("Error: No valid RPC connection. Check your RPC URLs.")
         return
 
     while True:
         try:
-            num_phrases = int(input("Combien de phrases mnémoniques voulez-vous générer ? (1 ou plus) : "))
+            num_phrases = int(input("How many mnemonic phrases do you want to generate? (1 or more): "))
             if num_phrases >= 1:
                 break
-            print("Veuillez entrer un nombre supérieur ou égal à 1.")
+            print("Please enter a number greater than or equal to 1.")
         except ValueError:
-            print("Veuillez entrer un nombre valide.")
+            print("Please enter a valid number.")
 
     process_wallets(num_phrases)
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     try:
         import mnemonic, eth_account, web3
     except ImportError as e:
-        print(f"Erreur : Une dépendance est manquante - {e}")
+        print(f"Error: A dependency is missing - {e}")
         exit(1)
 
     main()
